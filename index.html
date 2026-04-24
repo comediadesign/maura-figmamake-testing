@@ -5,8 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { overflow-x: hidden; }
-body { background: #f0ece6; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; gap: 28px; font-family: 'Jost', sans-serif; }
+body { background: #f0ece6; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; gap: 28px; font-family: 'Jost', sans-serif; position: relative; }
 
 .phone {
   width: 335px; height: 726px;
@@ -287,6 +286,7 @@ body { background: #f0ece6; display: flex; flex-direction: column; justify-conte
   font-size: 14px; font-weight: 300; color: #555;
   cursor: pointer; letter-spacing: 0.3px;
   transition: background 0.15s, transform 0.1s;
+  position: relative; z-index: 100;
 }
 .restart-btn:hover { background: rgba(0,0,0,0.13); }
 .restart-btn:active { transform: scale(0.97); }
@@ -297,12 +297,12 @@ body { background: #f0ece6; display: flex; flex-direction: column; justify-conte
   to   { opacity: 1; }
 }
 #scene6 {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  position: absolute; top: 0; left: 0; width: 100%; min-height: 100%;
   background: #f0ece6;
   display: flex; align-items: center; justify-content: center;
   opacity: 0;
   pointer-events: none;
-  z-index: 200;
+  z-index: 50;
 }
 #scene6.active {
   opacity: 1;
@@ -320,10 +320,12 @@ body { background: #f0ece6; display: flex; flex-direction: column; justify-conte
 .meta-shirt {
   position: relative;
   z-index: 1;
-  height: 68vh;
-  max-width: 32vw;
+  height: 72vh;
+  width: auto;
+  max-width: 38vw;
   object-fit: contain;
   flex-shrink: 0;
+  display: block;
 }
 /* Tag chips */
 .m-tag {
@@ -689,13 +691,13 @@ function restart() {
   showScene(0);
 }
 
-showScene(0);
+// Pre-copy the shirt from scene5 sheet into scene6 before playback starts
+(function() {
+  const src = document.querySelector('.scene5-sheet img').getAttribute('src');
+  document.getElementById('scene6-shirt').src = src;
+})();
 
-// Pre-copy the shirt image so scene6 is ready before it's needed
-window.addEventListener('load', () => {
-  const shirtImg = document.querySelector('#scene4 img');
-  if (shirtImg) document.getElementById('scene6-shirt').src = shirtImg.src;
-});
+showScene(0);
 </script>
 </body>
 </html>
